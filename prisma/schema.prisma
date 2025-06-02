@@ -1,0 +1,93 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// Enum untuk role pengguna
+enum Role {
+  ADMIN
+  SELLER
+  BUYER
+}
+
+// Enum untuk status pesanan
+enum OrderStatus {
+  BELUM_DIBAYAR
+  DIKEMAS
+  DIKIRIM
+  SELESAI
+}
+
+// Model untuk pengguna (admin, penjual, pembeli)
+model User {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  email       String   @unique
+  password    String
+  phone       String?
+  birthDate   DateTime?
+  city        String?
+  address     String?
+  role        Role     @default(BUYER)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  products    Product[] @relation("SellerProducts")
+  cart        Cart[]    @relation("UserCart")
+  orders      Order[]   @relation("UserOrders")
+}
+
+// Model untuk produk
+model Product {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String?
+  price       Float
+  stock       Int
+  imageUrl    String?
+  sellerId    String   @db.ObjectId
+  seller      User     @relation("SellerProducts", fields: [sellerId], references: [id])
+  cartItems   Cart[]   @relation("ProductInCart")
+  orderItems  OrderItem[] @relation("ProductInOrder")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Model untuk keranjang belanja
+model Cart {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @db.ObjectId
+  user        User     @relation("UserCart", fields: [userId], references: [id])
+  productId   String   @db.ObjectId
+  product     Product  @relation("ProductInCart", fields: [productId], references: [id])
+  quantity    Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Model untuk pesanan
+model Order {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String       @db.ObjectId
+  user        User         @relation("UserOrders", fields: [userId], references: [id])
+  items       OrderItem[]  @relation("OrderItems")
+  totalAmount Float
+  status      OrderStatus  @default(BELUM_DIBAYAR)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+// Model untuk item dalam pesanan
+model OrderItem {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  orderId     String   @db.ObjectId
+  order       Order    @relation("OrderItems", fields: [orderId], references: [id])
+  productId   String   @db.ObjectId
+  product     Product  @relation("ProductInOrder", fields: [productId], references: [id])
+  quantity    Int
+  price       Float
+}
