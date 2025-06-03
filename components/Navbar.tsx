@@ -20,7 +20,7 @@ const Navbar = async () => {
   console.log("Session:", session)
 
   return (
-    <header className="border-b bg-white sticky top-0 z-50">
+    <header className="border-b bg-white sticky top-0 z-50 md:block hidden">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <Link href="/">
