@@ -36,9 +36,12 @@ export default function LoginPage() {
 
     try {
       const res=await signInAction(values)
-        toast.success(
-        "Masuk berhasil. Selamat datang di TaniGo!",
-        )
+      if (res.error) {
+        setLoginError(res.error)
+        return
+      }
+      toast.success
+      (res.success || "Login berhasil")
     } catch (error) {
     setLoginError(
         (error as Error).message || "Terjadi kesalahan saat masuk. Silakan coba lagi."

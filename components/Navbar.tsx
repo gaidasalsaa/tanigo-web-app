@@ -15,7 +15,9 @@ import LogoutButton from "./LogoutButton"
 
 const Navbar = async () => {
   const session = await auth()
-  const isLogin = !!session
+  const isLogin = !!session?.user
+
+  console.log("Session:", session)
 
   return (
     <header className="border-b bg-white sticky top-0 z-50">

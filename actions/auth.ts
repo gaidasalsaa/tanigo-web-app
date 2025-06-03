@@ -12,7 +12,7 @@ import { AuthError } from "next-auth"
 // Sign Out Action
 export async function signOutAction() {
   try {
-    await signOut({ redirectTo: "/signin" })
+    await signOut()
   } catch (error) {
     console.error("Sign out error:", error)
     return { error: "Gagal logout. Silakan coba lagi." }
@@ -36,8 +36,9 @@ export async function signInAction(formData: SignIn) {
     await signIn("credentials", {
       email,
       password,
-      redirectTo: "/dashboard",
+      redirectTo: "/products",
     })
+    return { success: "Login berhasil" }
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
