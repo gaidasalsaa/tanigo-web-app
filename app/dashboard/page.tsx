@@ -8,7 +8,7 @@ import Image from "next/image"
 import Link from "next/link"
 
 export default function DashboardPage() {
-  const [userType] = useState<"buyer" | "seller">("buyer") // This would come from auth context
+  const [userType] = useState<"buyer" | "seller">("buyer") 
 
   const recentOrders = [
     {

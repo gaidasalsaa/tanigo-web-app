@@ -47,31 +47,6 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b bg-white sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2">
-            <Leaf className="h-8 w-8 text-green-600" />
-            <span className="text-2xl font-bold text-green-600">TaniGo</span>
-          </Link>
-          <nav className="hidden md:flex items-center space-x-6">
-            <Link href="/" className="text-gray-700 hover:text-green-600">
-              Beranda
-            </Link>
-            <Link href="/products" className="text-gray-700 hover:text-green-600">
-              Produk
-            </Link>
-            <Link href="/about" className="text-green-600 font-medium">
-              Tentang Kami
-            </Link>
-          </nav>
-          <div className="flex items-center space-x-4">
-            <Link href="/login">
-              <Button variant="outline">Masuk</Button>
-            </Link>
-          </div>
-        </div>
-      </header>
 
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-green-50 to-green-100 py-20">
